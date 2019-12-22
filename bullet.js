@@ -17,5 +17,22 @@ function Bullet(x, y, dir) {
     if(outOfBounds(this)) {
       objectsToRemove.push(index);
     }
+    if (this.dir == -1) {
+      for(var i in gameObjects) {
+        if (gameObjects[i].type == "Enemy" && this.hitting(gameObjects[i])) {
+          objectsToRemove.push(index);
+          gameObjects[i].hurt();
+        }
+      }
+    } else {
+      if (this.hitting(p)) {
+        objectsToRemove.push(index);
+        p.hurt();
+      }
+    }
+  }
+
+  this.hitting = function(obj) {
+    return Math.abs(obj.x - this.x) < obj.width / 2 && Math.abs(obj.y - this.y) < obj.height/2;
   }
 }

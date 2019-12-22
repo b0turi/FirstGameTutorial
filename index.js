@@ -3,11 +3,14 @@ var ctx = canvas.getContext("2d");
 
 const p = new Player(400);
 
-var gameObjects = [];
-
 var prevTime = 0;
 var gameObjects = [];
 var objectsToRemove = [];
+
+var spawnTimerMax = 5;
+var spawnTimer = 2;
+var spawnCap = 0.5;
+
 function gameLoop(time) {
   var dt = time - prevTime;
   prevTime = time;
@@ -27,8 +30,20 @@ function gameLoop(time) {
     objectsToRemove.pop();
   }
 
+  spawnTimer -= dt / 1000;
+  if (spawnTimer <= 0) {
+    spawnEnemy();
+  }
 
   requestAnimationFrame(gameLoop);
+}
+
+function spawnEnemy() {
+    gameObjects.push(new Enemy(Math.random() * canvas.width));
+    if (spawnTimerMax <= spawnCap)
+        spawnTimerMax -= dt / 1000;
+
+    spawnTimer = spawnTimerMax;
 }
 
 requestAnimationFrame(gameLoop);

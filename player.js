@@ -34,4 +34,8 @@ function Player(x) {
     gameObjects.push(b);
     this.shotLock = true;
   }
+
+  this.hurt = function() {
+      this.health -= 34;
+  }
 }
